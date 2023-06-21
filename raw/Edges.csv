@@ -1,0 +1,191 @@
+,lang_1,lang_2,weight
+0,English,German,3885
+1,English,French,4702
+2,English,Dutch,2686
+3,English,Russian,2050
+4,English,Spanish,2866
+5,English,Italian,2668
+6,English,Egyptian Arabic,4820
+7,English,Polish,1999
+8,English,Japanese,1233
+9,English,Chinese,1601
+10,English,Vietnamese,1978
+11,English,Ukrainian,1474
+12,English,Arabic,3270
+13,English,Portuguese,1402
+14,English,Persian,2253
+15,English,Catalan,545
+16,English,Serbian,422
+17,English,Indonesian,876
+18,English,Korean,504
+19,German,French,1524
+20,German,Dutch,638
+21,German,Russian,666
+22,German,Spanish,519
+23,German,Italian,876
+24,German,Egyptian Arabic,975
+25,German,Polish,700
+26,German,Japanese,204
+27,German,Chinese,348
+28,German,Vietnamese,109
+29,German,Ukrainian,329
+30,German,Arabic,397
+31,German,Portuguese,247
+32,German,Persian,165
+33,German,Catalan,131
+34,German,Serbian,102
+35,German,Indonesian,64
+36,German,Korean,57
+37,French,Dutch,851
+38,French,Russian,504
+39,French,Spanish,886
+40,French,Italian,1086
+41,French,Egyptian Arabic,866
+42,French,Polish,869
+43,French,Japanese,283
+44,French,Chinese,216
+45,French,Vietnamese,371
+46,French,Ukrainian,447
+47,French,Arabic,576
+48,French,Portuguese,480
+49,French,Persian,243
+50,French,Catalan,251
+51,French,Serbian,146
+52,French,Indonesian,135
+53,French,Korean,86
+54,Dutch,Russian,181
+55,Dutch,Spanish,758
+56,Dutch,Italian,281
+57,Dutch,Egyptian Arabic,177
+58,Dutch,Polish,422
+59,Dutch,Japanese,48
+60,Dutch,Chinese,240
+61,Dutch,Vietnamese,2499
+62,Dutch,Ukrainian,122
+63,Dutch,Arabic,85
+64,Dutch,Portuguese,282
+65,Dutch,Persian,54
+66,Dutch,Catalan,192
+67,Dutch,Serbian,35
+68,Dutch,Indonesian,882
+69,Dutch,Korean,20
+70,Russian,Spanish,299
+71,Russian,Italian,331
+72,Russian,Egyptian Arabic,303
+73,Russian,Polish,554
+74,Russian,Japanese,121
+75,Russian,Chinese,319
+76,Russian,Vietnamese,80
+77,Russian,Ukrainian,1797
+78,Russian,Arabic,134
+79,Russian,Portuguese,116
+80,Russian,Persian,198
+81,Russian,Catalan,93
+82,Russian,Serbian,74
+83,Russian,Indonesian,57
+84,Russian,Korean,28
+85,Spanish,Italian,569
+86,Spanish,Egyptian Arabic,377
+87,Spanish,Polish,271
+88,Spanish,Japanese,120
+89,Spanish,Chinese,275
+90,Spanish,Vietnamese,745
+91,Spanish,Ukrainian,158
+92,Spanish,Arabic,259
+93,Spanish,Portuguese,496
+94,Spanish,Persian,116
+95,Spanish,Catalan,572
+96,Spanish,Serbian,53
+97,Spanish,Indonesian,153
+98,Spanish,Korean,50
+99,Italian,Egyptian Arabic,427
+100,Italian,Polish,280
+101,Italian,Japanese,142
+102,Italian,Chinese,150
+103,Italian,Vietnamese,74
+104,Italian,Ukrainian,184
+105,Italian,Arabic,202
+106,Italian,Portuguese,242
+107,Italian,Persian,164
+108,Italian,Catalan,153
+109,Italian,Serbian,81
+110,Italian,Indonesian,54
+111,Italian,Korean,46
+112,Egyptian Arabic,Polish,350
+113,Egyptian Arabic,Japanese,143
+114,Egyptian Arabic,Chinese,138
+115,Egyptian Arabic,Vietnamese,99
+116,Egyptian Arabic,Ukrainian,273
+117,Egyptian Arabic,Arabic,2186
+118,Egyptian Arabic,Portuguese,289
+119,Egyptian Arabic,Persian,847
+120,Egyptian Arabic,Catalan,82
+121,Egyptian Arabic,Serbian,153
+122,Egyptian Arabic,Indonesian,58
+123,Egyptian Arabic,Korean,62
+124,Polish,Japanese,66
+125,Polish,Chinese,141
+126,Polish,Vietnamese,144
+127,Polish,Ukrainian,876
+128,Polish,Arabic,112
+129,Polish,Portuguese,122
+130,Polish,Persian,123
+131,Polish,Catalan,47
+132,Polish,Serbian,209
+133,Polish,Indonesian,37
+134,Polish,Korean,12
+135,Japanese,Chinese,639
+136,Japanese,Vietnamese,51
+137,Japanese,Ukrainian,36
+138,Japanese,Arabic,90
+139,Japanese,Portuguese,56
+140,Japanese,Persian,57
+141,Japanese,Catalan,25
+142,Japanese,Serbian,33
+143,Japanese,Indonesian,45
+144,Japanese,Korean,374
+145,Chinese,Vietnamese,347
+146,Chinese,Ukrainian,243
+147,Chinese,Arabic,105
+148,Chinese,Portuguese,71
+149,Chinese,Persian,139
+150,Chinese,Catalan,104
+151,Chinese,Serbian,14
+152,Chinese,Indonesian,111
+153,Chinese,Korean,253
+154,Vietnamese,Ukrainian,67
+155,Vietnamese,Arabic,130
+156,Vietnamese,Portuguese,246
+157,Vietnamese,Persian,110
+158,Vietnamese,Catalan,32
+159,Vietnamese,Serbian,18
+160,Vietnamese,Indonesian,714
+161,Vietnamese,Korean,35
+162,Ukrainian,Arabic,96
+163,Ukrainian,Portuguese,61
+164,Ukrainian,Persian,170
+165,Ukrainian,Catalan,61
+166,Ukrainian,Serbian,217
+167,Ukrainian,Indonesian,18
+168,Ukrainian,Korean,12
+169,Arabic,Portuguese,262
+170,Arabic,Persian,560
+171,Arabic,Catalan,51
+172,Arabic,Serbian,32
+173,Arabic,Indonesian,82
+174,Arabic,Korean,28
+175,Portuguese,Persian,53
+176,Portuguese,Catalan,58
+177,Portuguese,Serbian,16
+178,Portuguese,Indonesian,111
+179,Portuguese,Korean,22
+180,Persian,Catalan,31
+181,Persian,Serbian,37
+182,Persian,Indonesian,51
+183,Persian,Korean,27
+184,Catalan,Serbian,2
+185,Catalan,Indonesian,10
+186,Catalan,Korean,7
+187,Serbian,Indonesian,4
+188,Serbian,Korean,2
+189,Indonesian,Korean,36
