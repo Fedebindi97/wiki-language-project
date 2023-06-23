@@ -37,31 +37,39 @@ class NetworkClass:
     """
 
     # We need to define a nx network and a corresponding Pyvis network (with attributes for coloring if needed)
-    def __init__(self, data, node_col, neighbor_col, edge_weight_col=None, dropna_viz=False, base_color = '#ACACAC', base_node_size = None, base_edge_width = None, int_id = False):    
+    def __init__(self, data, node_col, neighbor_col, edge_weight_col=None, dropna_viz=False, base_color = '#ACACAC', base_node_size = None, base_edge_width = None, int_id = False, digraph=False, drop_edges_viz=False):    
         self.data = data
         
-        # networkx graph
-        data_dropna = copy.deepcopy(self.data.dropna())
+        ###### NETWORKX ASSIGNMENT ######      
         if int_id:
-            data_dropna[[node_col,neighbor_col]] = data_dropna[[node_col,neighbor_col]].astype(int)
-        self.g = nx.DiGraph()
+            data[[node_col,neighbor_col]] = data[[node_col,neighbor_col]].astype(int)
+        
+        if digraph:
+            self.g = nx.DiGraph()
+        else:
+            self.g = nx.Graph()
+            
         self.g.add_nodes_from([str(el) for el in data[node_col].unique()])
         if edge_weight_col != None: # We may not always have weighted edges
-            elist = list(zip(data_dropna[node_col],data_dropna[neighbor_col],data_dropna[edge_weight_col].apply(lambda x: math.log(x)))) # We apply the log to edge widths to avoid huge arrows in the visualization; the dropna removes rows where the cited firm/patent is null
+            elist = list(zip(data[node_col],data[neighbor_col],data[edge_weight_col]))
             self.g.add_weighted_edges_from([(str(el[0]),str(el[1]),el[2]) for el in elist])
         else:
-            elist = list(zip(data_dropna[node_col],data_dropna[neighbor_col])) # The dropna removes rows where the neighbor is null
+            elist = list(zip(data[node_col],data[neighbor_col]))
             self.g.add_edges_from([(str(el[0]),str(el[1])) for el in elist])
         
-        # drop non-connected nodes (optional)
+        # Drop edges below a certain threshold for visualization
         self.g_copy = copy.deepcopy(self.g)
-        if dropna_viz:
-            for node in self.g.nodes():
-                if self.g_copy.out_degree(node) == 0 and self.g_copy.in_degree(node) == 0:
-                    self.g_copy.remove_node(node)
-            
-        # pyvis graph
-        self.nt = Network('1500px','1500px',directed=True, bgcolor="#222222", font_color="white") #,select_menu=True,filter_menu=True)
+        if drop_edges_viz:
+            for u,v,d in self.g.edges(data=True):
+                if d['weight'] <= drop_edges_viz:
+                    self.g_copy.remove_edge(u, v)
+        
+        # Rescale edges 
+        for u,v,d in self.g_copy.edges(data=True):
+            d['weight'] = np.sqrt(d['weight'])
+        
+        ###### PYVIS ASSIGNMENT ######
+        self.nt = Network('1500px','1500px',directed=digraph, bgcolor="#222222", font_color="white") #,select_menu=True,filter_menu=True)
         self.nt.barnes_hut()
         self.nt.from_nx(self.g_copy) 
         
@@ -75,7 +83,7 @@ class NetworkClass:
                 edge['width'] = base_edge_width
             
 
-    def show(self,filename='nt.html',labels=True,font_size = 100):
+    def show_network(self,filename='nt.html',labels=True,font_size = 100):
         """
         Method to show the network.
 
@@ -97,16 +105,12 @@ class NetworkClass:
         for node in self.nt.nodes:
             node['title'] = node['label'] # titles are what appear when you hover over a node
             node['font']['size'] = font_size
-            node['label'] = node['label'] + ' ' + str(self.g.out_degree(node['label'])) + '-' + str(self.g.in_degree(node['label']))
+            node['label'] = node['label'] + ' (' + str(self.g_copy.degree(node['label'])) + ')'
             if not labels:
                 del node['label']    
    
         self.nt.toggle_physics(True)
-        try:
-            self.nt.show(filename)
-        except:
-            #print('Check in outdir if html file has been created.')
-            pass
+        self.nt.show(filename,notebook=False)
         
     def add_node_attr(self,data,attr_name,key='id'): # we can add attributes via a DataFrame or a dictionary
         """

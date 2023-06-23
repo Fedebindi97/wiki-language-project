@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1500px;
+                 height: 1500px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "English", "label": "English (19)", "shape": "dot", "size": 322.87712929998617, "title": "English"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "German", "label": "German (17)", "shape": "dot", "size": 209.55660034940442, "title": "German"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "French", "label": "French (18)", "shape": "dot", "size": 198.83590910597613, "title": "French"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Dutch", "label": "Dutch (14)", "shape": "dot", "size": 182.21694659114448, "title": "Dutch"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Russian", "label": "Russian (14)", "shape": "dot", "size": 173.34313874509138, "title": "Russian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Spanish", "label": "Spanish (17)", "shape": "dot", "size": 171.0000456871284, "title": "Spanish"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Italian", "label": "Italian (15)", "shape": "dot", "size": 168.41754288078187, "title": "Italian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Egyptian Arabic", "label": "Egyptian Arabic (15)", "shape": "dot", "size": 158.99739581200694, "title": "Egyptian Arabic"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Polish", "label": "Polish (15)", "shape": "dot", "size": 156.6965120064898, "title": "Polish"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Japanese", "label": "Japanese (9)", "shape": "dot", "size": 146.71635048623585, "title": "Japanese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Chinese", "label": "Chinese (17)", "shape": "dot", "size": 145.89358279239016, "title": "Chinese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Vietnamese", "label": "Vietnamese (11)", "shape": "dot", "size": 141.6632229973609, "title": "Vietnamese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Ukrainian", "label": "Ukrainian (12)", "shape": "dot", "size": 140.8093236437133, "title": "Ukrainian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Arabic", "label": "Arabic (12)", "shape": "dot", "size": 137.43032325509535, "title": "Arabic"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Portuguese", "label": "Portuguese (12)", "shape": "dot", "size": 131.31022427823356, "title": "Portuguese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Persian", "label": "Persian (12)", "shape": "dot", "size": 122.8503281436399, "title": "Persian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Catalan", "label": "Catalan (7)", "shape": "dot", "size": 106.78417193104978, "title": "Catalan"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Serbian", "label": "Serbian (6)", "shape": "dot", "size": 102.450826619408, "title": "Serbian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Indonesian", "label": "Indonesian (7)", "shape": "dot", "size": 100.92408966644187, "title": "Indonesian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Korean", "label": "Korean (3)", "shape": "dot", "size": 99.84527091955833, "title": "Korean"}]);
+                  edges = new vis.DataSet([{"from": "English", "to": "German", "width": 62.32976816898969}, {"from": "English", "to": "French", "width": 68.57113095173507}, {"from": "English", "to": "Dutch", "width": 51.82663407939975}, {"from": "English", "to": "Russian", "width": 45.27692569068709}, {"from": "English", "to": "Spanish", "width": 53.53503525729669}, {"from": "English", "to": "Italian", "width": 51.65268628057983}, {"from": "English", "to": "Egyptian Arabic", "width": 69.42621983083913}, {"from": "English", "to": "Polish", "width": 44.710177812216315}, {"from": "English", "to": "Japanese", "width": 35.11409973215888}, {"from": "English", "to": "Chinese", "width": 40.01249804748511}, {"from": "English", "to": "Vietnamese", "width": 44.474711915874174}, {"from": "English", "to": "Ukrainian", "width": 38.39270764090493}, {"from": "English", "to": "Arabic", "width": 57.18391382198319}, {"from": "English", "to": "Portuguese", "width": 37.44329045369811}, {"from": "English", "to": "Persian", "width": 47.46577714522327}, {"from": "English", "to": "Catalan", "width": 23.345235059857504}, {"from": "English", "to": "Serbian", "width": 20.54263858417414}, {"from": "English", "to": "Indonesian", "width": 29.597297173897484}, {"from": "English", "to": "Korean", "width": 22.44994432064365}, {"from": "German", "to": "French", "width": 39.03844259188627}, {"from": "German", "to": "Dutch", "width": 25.25866188063018}, {"from": "German", "to": "Russian", "width": 25.80697580112788}, {"from": "German", "to": "Spanish", "width": 22.781571499789035}, {"from": "German", "to": "Italian", "width": 29.597297173897484}, {"from": "German", "to": "Egyptian Arabic", "width": 31.22498999199199}, {"from": "German", "to": "Polish", "width": 26.457513110645905}, {"from": "German", "to": "Japanese", "width": 14.2828568570857}, {"from": "German", "to": "Chinese", "width": 18.65475810617763}, {"from": "German", "to": "Vietnamese", "width": 10.44030650891055}, {"from": "German", "to": "Ukrainian", "width": 18.138357147217054}, {"from": "German", "to": "Arabic", "width": 19.924858845171276}, {"from": "German", "to": "Portuguese", "width": 15.716233645501712}, {"from": "German", "to": "Persian", "width": 12.84523257866513}, {"from": "German", "to": "Catalan", "width": 11.445523142259598}, {"from": "German", "to": "Serbian", "width": 10.099504938362077}, {"from": "French", "to": "Dutch", "width": 29.171904291629644}, {"from": "French", "to": "Russian", "width": 22.44994432064365}, {"from": "French", "to": "Spanish", "width": 29.765752132274432}, {"from": "French", "to": "Italian", "width": 32.95451410656816}, {"from": "French", "to": "Egyptian Arabic", "width": 29.427877939124322}, {"from": "French", "to": "Polish", "width": 29.478805945967352}, {"from": "French", "to": "Japanese", "width": 16.822603841260722}, {"from": "French", "to": "Chinese", "width": 14.696938456699069}, {"from": "French", "to": "Vietnamese", "width": 19.261360284258224}, {"from": "French", "to": "Ukrainian", "width": 21.142374511865974}, {"from": "French", "to": "Arabic", "width": 24.0}, {"from": "French", "to": "Portuguese", "width": 21.908902300206645}, {"from": "French", "to": "Persian", "width": 15.588457268119896}, {"from": "French", "to": "Catalan", "width": 15.84297951775486}, {"from": "French", "to": "Serbian", "width": 12.083045973594572}, {"from": "French", "to": "Indonesian", "width": 11.61895003862225}, {"from": "Dutch", "to": "Russian", "width": 13.45362404707371}, {"from": "Dutch", "to": "Spanish", "width": 27.53179979587241}, {"from": "Dutch", "to": "Italian", "width": 16.76305461424021}, {"from": "Dutch", "to": "Egyptian Arabic", "width": 13.30413469565007}, {"from": "Dutch", "to": "Polish", "width": 20.54263858417414}, {"from": "Dutch", "to": "Chinese", "width": 15.491933384829668}, {"from": "Dutch", "to": "Vietnamese", "width": 49.98999899979995}, {"from": "Dutch", "to": "Ukrainian", "width": 11.045361017187261}, {"from": "Dutch", "to": "Portuguese", "width": 16.792855623746664}, {"from": "Dutch", "to": "Catalan", "width": 13.856406460551018}, {"from": "Dutch", "to": "Indonesian", "width": 29.698484809834994}, {"from": "Russian", "to": "Spanish", "width": 17.291616465790582}, {"from": "Russian", "to": "Italian", "width": 18.193405398660254}, {"from": "Russian", "to": "Egyptian Arabic", "width": 17.406895185529212}, {"from": "Russian", "to": "Polish", "width": 23.53720459187964}, {"from": "Russian", "to": "Japanese", "width": 11.0}, {"from": "Russian", "to": "Chinese", "width": 17.86057109949175}, {"from": "Russian", "to": "Ukrainian", "width": 42.391036788453285}, {"from": "Russian", "to": "Arabic", "width": 11.575836902790225}, {"from": "Russian", "to": "Portuguese", "width": 10.770329614269007}, {"from": "Russian", "to": "Persian", "width": 14.071247279470288}, {"from": "Spanish", "to": "Italian", "width": 23.853720883753127}, {"from": "Spanish", "to": "Egyptian Arabic", "width": 19.4164878389476}, {"from": "Spanish", "to": "Polish", "width": 16.46207763315433}, {"from": "Spanish", "to": "Japanese", "width": 10.954451150103322}, {"from": "Spanish", "to": "Chinese", "width": 16.583123951777}, {"from": "Spanish", "to": "Vietnamese", "width": 27.294688127912362}, {"from": "Spanish", "to": "Ukrainian", "width": 12.569805089976535}, {"from": "Spanish", "to": "Arabic", "width": 16.09347693943108}, {"from": "Spanish", "to": "Portuguese", "width": 22.271057451320086}, {"from": "Spanish", "to": "Persian", "width": 10.770329614269007}, {"from": "Spanish", "to": "Catalan", "width": 23.916521486202797}, {"from": "Spanish", "to": "Indonesian", "width": 12.36931687685298}, {"from": "Italian", "to": "Egyptian Arabic", "width": 20.663978319771825}, {"from": "Italian", "to": "Polish", "width": 16.73320053068151}, {"from": "Italian", "to": "Japanese", "width": 11.916375287812984}, {"from": "Italian", "to": "Chinese", "width": 12.24744871391589}, {"from": "Italian", "to": "Ukrainian", "width": 13.564659966250536}, {"from": "Italian", "to": "Arabic", "width": 14.212670403551895}, {"from": "Italian", "to": "Portuguese", "width": 15.556349186104045}, {"from": "Italian", "to": "Persian", "width": 12.806248474865697}, {"from": "Italian", "to": "Catalan", "width": 12.36931687685298}, {"from": "Egyptian Arabic", "to": "Polish", "width": 18.708286933869708}, {"from": "Egyptian Arabic", "to": "Japanese", "width": 11.958260743101398}, {"from": "Egyptian Arabic", "to": "Chinese", "width": 11.74734012447073}, {"from": "Egyptian Arabic", "to": "Ukrainian", "width": 16.522711641858304}, {"from": "Egyptian Arabic", "to": "Arabic", "width": 46.75467891024384}, {"from": "Egyptian Arabic", "to": "Portuguese", "width": 17.0}, {"from": "Egyptian Arabic", "to": "Persian", "width": 29.103264421710495}, {"from": "Egyptian Arabic", "to": "Serbian", "width": 12.36931687685298}, {"from": "Polish", "to": "Chinese", "width": 11.874342087037917}, {"from": "Polish", "to": "Vietnamese", "width": 12.0}, {"from": "Polish", "to": "Ukrainian", "width": 29.597297173897484}, {"from": "Polish", "to": "Arabic", "width": 10.583005244258363}, {"from": "Polish", "to": "Portuguese", "width": 11.045361017187261}, {"from": "Polish", "to": "Persian", "width": 11.090536506409418}, {"from": "Polish", "to": "Serbian", "width": 14.45683229480096}, {"from": "Japanese", "to": "Chinese", "width": 25.278449319529077}, {"from": "Japanese", "to": "Korean", "width": 19.339079605813716}, {"from": "Chinese", "to": "Vietnamese", "width": 18.627936010197157}, {"from": "Chinese", "to": "Ukrainian", "width": 15.588457268119896}, {"from": "Chinese", "to": "Arabic", "width": 10.246950765959598}, {"from": "Chinese", "to": "Persian", "width": 11.789826122551595}, {"from": "Chinese", "to": "Catalan", "width": 10.198039027185569}, {"from": "Chinese", "to": "Indonesian", "width": 10.535653752852738}, {"from": "Chinese", "to": "Korean", "width": 15.905973720586866}, {"from": "Vietnamese", "to": "Arabic", "width": 11.40175425099138}, {"from": "Vietnamese", "to": "Portuguese", "width": 15.684387141358123}, {"from": "Vietnamese", "to": "Persian", "width": 10.488088481701515}, {"from": "Vietnamese", "to": "Indonesian", "width": 26.720778431774775}, {"from": "Ukrainian", "to": "Persian", "width": 13.038404810405298}, {"from": "Ukrainian", "to": "Serbian", "width": 14.730919862656235}, {"from": "Arabic", "to": "Portuguese", "width": 16.186414056238647}, {"from": "Arabic", "to": "Persian", "width": 23.664319132398465}, {"from": "Portuguese", "to": "Indonesian", "width": 10.535653752852738}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
