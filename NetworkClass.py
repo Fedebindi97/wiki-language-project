@@ -13,34 +13,46 @@ from cdlib import algorithms
 class NetworkClass:
     """
     Class to build and visualize a network starting from edge data.
-
-    Inputs when instantiating
+        
+    Methods
     ----------
-    data : pd.DataFrame
-        dataframe of connections (in the form node, weight of link, neighbor)
-    node_col : str
-        node column name
-    neighbor_col : str
-        neighbor column name
-    edge_weight_col : str
-        edge weight column name
-    dropna_viz : bool
-        drop singletons from pyvis visualization (but not from nx graph)
-    base_color: str
-        hex default color for nodes and edges
-    base_node_size: int
-        default node size
-    base_edge_width: int
-        default edge width
-    int_id: bool
-        set to True when your node_neighbor id is numeric and you want to make sure that it is converted to int
+    add_note_attr: adds an attribute the network.
+    network_statistics: computes descriptive statistics of the network.
+    communities: shows communities of the network (Louvain method) and eventually colors nodes according to their community.
     """
 
     # We need to define a nx network and a corresponding Pyvis network (with attributes for coloring if needed)
-    def __init__(self, data, node_col, neighbor_col, edge_weight_col=None, dropna_viz=False, base_color = '#ACACAC', base_node_size = None, base_edge_width = None, int_id = False, digraph=False, drop_edges_viz=False):    
+    def __init__(self, data, node_col, neighbor_col, edge_weight_col=None, dropna_viz=False, base_color = '#ACACAC', base_node_size = None, base_edge_width = None, int_id = False, digraph=False, drop_edges_viz=False,labels=True,font_size = 100):
+        """
+        Inputs when instantiating
+        ----------
+        data : pd.DataFrame
+            dataframe of connections (in the form node, weight of link, neighbor)
+        node_col : str
+            node column name
+        neighbor_col : str
+            neighbor column name
+        edge_weight_col : str
+            edge weight column name
+        dropna_viz : bool
+            drop singletons from pyvis visualization (but not from nx graph)
+        base_color: str
+            hex default color for nodes and edges
+        base_node_size: int
+            default node size
+        base_edge_width: int
+            default edge width
+        int_id: bool
+            set to True when your node_neighbor id is numeric and you want to make sure that it is converted to int
+        labels : bool (default True)
+            if set to False, remove labels from edges
+        font_size: int
+            font sizes for the labels (default 100)
+        """
+        
         self.data = data
         
-        ###### NETWORKX ASSIGNMENT ######      
+    ###### NETWORKX ASSIGNMENT ######      
         if int_id:
             data[[node_col,neighbor_col]] = data[[node_col,neighbor_col]].astype(int)
         
@@ -57,6 +69,7 @@ class NetworkClass:
             elist = list(zip(data[node_col],data[neighbor_col]))
             self.g.add_edges_from([(str(el[0]),str(el[1])) for el in elist])
         
+    ###### PYVIS ASSIGNMENT ######
         # Drop edges below a certain threshold for visualization
         self.g_copy = copy.deepcopy(self.g)
         if drop_edges_viz:
@@ -67,8 +80,7 @@ class NetworkClass:
         # Rescale edges 
         for u,v,d in self.g_copy.edges(data=True):
             d['weight'] = np.sqrt(d['weight'])
-        
-        ###### PYVIS ASSIGNMENT ######
+
         self.nt = Network('1500px','1500px',directed=digraph, bgcolor="#222222", font_color="white") #,select_menu=True,filter_menu=True)
         self.nt.barnes_hut()
         self.nt.from_nx(self.g_copy) 
@@ -81,36 +93,18 @@ class NetworkClass:
         for edge in self.nt.edges:
             if base_edge_width != None:
                 edge['width'] = base_edge_width
-            
-
-    def show_network(self,filename='nt.html',labels=True,font_size = 100):
-        """
-        Method to show the network.
-
-        Arguments
-        ----------
-        filename : str
-            filename (must end with .html)
-        labels : bool (default True)
-            if set to False, remove labels from edges
-        font_size: int
-            font sizes for the labels (default 100)
-        node_size: int
-            size for all nodes (default 100)
-        edge_width: int
-            size for all edges (default 1)
-        """
-        
+                
         # set graphical settings for nodes
         for node in self.nt.nodes:
             node['title'] = node['label'] # titles are what appear when you hover over a node
             node['font']['size'] = font_size
-            node['label'] = node['label'] + ' (' + str(self.g_copy.degree(node['label'])) + ')'
+            node['label'] = node['label'] + ' (' + str(self.g_copy.degree(node['id'])) + ')'
             if not labels:
-                del node['label']    
-   
+                del node['label']  
+        
+        # Enable physics
         self.nt.toggle_physics(True)
-        self.nt.show(filename,notebook=False)
+        
         
     def add_node_attr(self,data,attr_name,key='id'): # we can add attributes via a DataFrame or a dictionary
         """
@@ -141,7 +135,7 @@ class NetworkClass:
                 
     def network_statistics(self,name='Network statistics'):
         """
-        Method to show descriptive statistics of the network.
+        Method to compute descriptive statistics of the network.
 
         Arguments
         ----------     
