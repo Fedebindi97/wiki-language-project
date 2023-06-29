@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1500px;
+                 height: 1500px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "English", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/English.png", "label": "English (19)", "shape": "circularImage", "size": 322.95793553495474, "title": "English"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "German", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/German.png", "label": "German (13)", "shape": "circularImage", "size": 209.63629218243676, "title": "German"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "French", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/French.png", "label": "French (16)", "shape": "circularImage", "size": 198.9006897298247, "title": "French"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Dutch", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Dutch.png", "label": "Dutch (6)", "shape": "circularImage", "size": 182.24194083689957, "title": "Dutch"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Russian", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Russian.png", "label": "Russian (9)", "shape": "circularImage", "size": 173.41365827119847, "title": "Russian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Spanish", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Spanish.png", "label": "Spanish (14)", "shape": "circularImage", "size": 171.09564211282532, "title": "Spanish"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Italian", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Italian.png", "label": "Italian (10)", "shape": "circularImage", "size": 168.4606779043703, "title": "Italian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Egyptian Arabic", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Egyptian Arabic.png", "label": "Egyptian Arabic (11)", "shape": "circularImage", "size": 159.00235847307422, "title": "Egyptian Arabic"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Polish", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Polish.png", "label": "Polish (9)", "shape": "circularImage", "size": 156.7311093082672, "title": "Polish"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Japanese", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Japanese.png", "label": "Japanese (5)", "shape": "circularImage", "size": 146.7566544487847, "title": "Japanese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Chinese", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Chinese.png", "label": "Chinese (8)", "shape": "circularImage", "size": 145.98506987017544, "title": "Chinese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Vietnamese", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Vietnamese.png", "label": "Vietnamese (3)", "shape": "circularImage", "size": 141.68114509348095, "title": "Vietnamese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Ukrainian", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Ukrainian.png", "label": "Ukrainian (9)", "shape": "circularImage", "size": 140.8771073489231, "title": "Ukrainian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Arabic", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Arabic.png", "label": "Arabic (7)", "shape": "circularImage", "size": 137.47585015194488, "title": "Arabic"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Portuguese", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Portuguese.png", "label": "Portuguese (7)", "shape": "circularImage", "size": 131.33806569308078, "title": "Portuguese"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Persian", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Persian.png", "label": "Persian (4)", "shape": "circularImage", "size": 122.89458134921979, "title": "Persian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Catalan", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Catalan.png", "label": "Catalan (3)", "shape": "circularImage", "size": 106.81087257390982, "title": "Catalan"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Serbian", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Serbian.png", "label": "Serbian (1)", "shape": "circularImage", "size": 102.4697363859203, "title": "Serbian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Indonesian", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Indonesian.png", "label": "Indonesian (1)", "shape": "circularImage", "size": 101.0114473710777, "title": "Indonesian"}, {"color": "#ACACAC", "font": {"color": "white", "size": 100}, "id": "Korean", "image": "/Users/federico.bindi/Desktop/GitHub/wiki-language-project/flags/Korean.png", "label": "Korean (3)", "shape": "circularImage", "size": 99.88970479984411, "title": "Korean"}]);
+                  edges = new vis.DataSet([{"from": "English", "to": "German", "width": 48.104053883222775}, {"from": "English", "to": "French", "width": 53.075418038862395}, {"from": "English", "to": "Dutch", "width": 28.26658805020514}, {"from": "English", "to": "Russian", "width": 37.62977544445356}, {"from": "English", "to": "Spanish", "width": 42.15447781671598}, {"from": "English", "to": "Italian", "width": 39.786932528155525}, {"from": "English", "to": "Egyptian Arabic", "width": 44.170125650715555}, {"from": "English", "to": "Polish", "width": 30.870698080866262}, {"from": "English", "to": "Japanese", "width": 28.178005607210743}, {"from": "English", "to": "Chinese", "width": 28.792360097775937}, {"from": "English", "to": "Vietnamese", "width": 21.02379604162864}, {"from": "English", "to": "Ukrainian", "width": 29.765752132274432}, {"from": "English", "to": "Arabic", "width": 38.09199390948182}, {"from": "English", "to": "Portuguese", "width": 27.184554438136374}, {"from": "English", "to": "Persian", "width": 28.930952282978865}, {"from": "English", "to": "Catalan", "width": 16.522711641858304}, {"from": "English", "to": "Serbian", "width": 14.66287829861518}, {"from": "English", "to": "Indonesian", "width": 19.0}, {"from": "English", "to": "Korean", "width": 16.73320053068151}, {"from": "German", "to": "French", "width": 30.789608636681304}, {"from": "German", "to": "Dutch", "width": 18.439088914585774}, {"from": "German", "to": "Russian", "width": 20.8806130178211}, {"from": "German", "to": "Spanish", "width": 17.776388834631177}, {"from": "German", "to": "Italian", "width": 21.748563170931547}, {"from": "German", "to": "Egyptian Arabic", "width": 22.338307903688676}, {"from": "German", "to": "Polish", "width": 20.024984394500787}, {"from": "German", "to": "Japanese", "width": 11.445523142259598}, {"from": "German", "to": "Chinese", "width": 11.489125293076057}, {"from": "German", "to": "Ukrainian", "width": 13.784048752090222}, {"from": "German", "to": "Arabic", "width": 14.177446878757825}, {"from": "German", "to": "Portuguese", "width": 12.36931687685298}, {"from": "French", "to": "Dutch", "width": 19.209372712298546}, {"from": "French", "to": "Russian", "width": 19.183326093250876}, {"from": "French", "to": "Spanish", "width": 23.558437978779494}, {"from": "French", "to": "Italian", "width": 24.596747752497688}, {"from": "French", "to": "Egyptian Arabic", "width": 20.784609690826528}, {"from": "French", "to": "Polish", "width": 20.37154878746336}, {"from": "French", "to": "Japanese", "width": 14.071247279470288}, {"from": "French", "to": "Chinese", "width": 11.61895003862225}, {"from": "French", "to": "Vietnamese", "width": 10.198039027185569}, {"from": "French", "to": "Ukrainian", "width": 15.264337522473747}, {"from": "French", "to": "Arabic", "width": 17.46424919657298}, {"from": "French", "to": "Portuguese", "width": 15.937377450509228}, {"from": "French", "to": "Persian", "width": 11.090536506409418}, {"from": "French", "to": "Catalan", "width": 12.409673645990857}, {"from": "Dutch", "to": "Spanish", "width": 11.357816691600547}, {"from": "Dutch", "to": "Italian", "width": 10.908712114635714}, {"from": "Dutch", "to": "Polish", "width": 11.489125293076057}, {"from": "Russian", "to": "Spanish", "width": 15.132745950421556}, {"from": "Russian", "to": "Italian", "width": 14.38749456993816}, {"from": "Russian", "to": "Egyptian Arabic", "width": 12.609520212918492}, {"from": "Russian", "to": "Polish", "width": 19.157244060668017}, {"from": "Russian", "to": "Chinese", "width": 12.649110640673518}, {"from": "Russian", "to": "Ukrainian", "width": 35.199431813596085}, {"from": "Spanish", "to": "Italian", "width": 19.0}, {"from": "Spanish", "to": "Egyptian Arabic", "width": 14.628738838327793}, {"from": "Spanish", "to": "Polish", "width": 10.770329614269007}, {"from": "Spanish", "to": "Chinese", "width": 10.954451150103322}, {"from": "Spanish", "to": "Vietnamese", "width": 12.0}, {"from": "Spanish", "to": "Ukrainian", "width": 10.246950765959598}, {"from": "Spanish", "to": "Arabic", "width": 12.0}, {"from": "Spanish", "to": "Portuguese", "width": 15.968719422671311}, {"from": "Spanish", "to": "Catalan", "width": 18.788294228055936}, {"from": "Italian", "to": "Egyptian Arabic", "width": 14.352700094407323}, {"from": "Italian", "to": "Polish", "width": 12.767145334803704}, {"from": "Italian", "to": "Ukrainian", "width": 10.954451150103322}, {"from": "Italian", "to": "Portuguese", "width": 12.328828005937952}, {"from": "Egyptian Arabic", "to": "Polish", "width": 12.409673645990857}, {"from": "Egyptian Arabic", "to": "Ukrainian", "width": 11.045361017187261}, {"from": "Egyptian Arabic", "to": "Arabic", "width": 25.67099530598687}, {"from": "Egyptian Arabic", "to": "Portuguese", "width": 11.180339887498949}, {"from": "Egyptian Arabic", "to": "Persian", "width": 15.165750888103101}, {"from": "Polish", "to": "Ukrainian", "width": 21.702534414210707}, {"from": "Japanese", "to": "Chinese", "width": 18.601075237738275}, {"from": "Japanese", "to": "Korean", "width": 12.489995996796797}, {"from": "Chinese", "to": "Ukrainian", "width": 10.246950765959598}, {"from": "Chinese", "to": "Korean", "width": 11.135528725660043}, {"from": "Arabic", "to": "Portuguese", "width": 10.770329614269007}, {"from": "Arabic", "to": "Persian", "width": 13.228756555322953}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
