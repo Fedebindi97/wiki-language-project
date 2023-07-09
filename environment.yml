@@ -14,3 +14,5 @@ dependencies:
     - requests==2,28,1
     - pyvis==0.3.1
     - networkx==2.8.4
+    - pywikibot==8.1.2
+    - plotnine==0.10.1
